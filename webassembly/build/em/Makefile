@@ -32,6 +32,7 @@ libx264:
 	emconfigure ./configure \
 		--prefix="$$(pwd)/../../em" \
 		--extra-cflags="-Wno-unknown-warning-option" \
+		--host=x86-none-linux \
 		--disable-cli \
 		--enable-shared \
 		--disable-opencl \
@@ -98,6 +99,7 @@ ffmpeg: $(SHARED_DEPS)
 		--enable-libx264 \
 		--extra-cflags="-I../../em/include" \
 		--extra-ldflags="-L../../em/lib" \
+		--ranlib="emranlib" \
 		&& \
 	emmake make -j8 && \
 	emmake make install && \
