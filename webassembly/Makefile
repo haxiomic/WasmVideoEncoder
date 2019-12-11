@@ -1,7 +1,8 @@
 ENCODE_BC = ffmpeg.bc
 ENCODE_DEPS = \
-	./build/em/lib/libmp3lame.so \
 	./build/em/lib/libx264.so \
+	./build/em/lib/libmp3lame.dylib \
+# 	./build/em/lib/libmp3lame.so \
 	#./build/em/lib/libopus.so \
 	#./build/em/lib/libvpx.so
 
@@ -14,7 +15,7 @@ ENCODE_FUNCTIONS = "[ \
 		'_open_video', '_close_stream', '_free_buffer', '_write_header']"
 
 ENCODE_COMMON = \
-	-Oz --memory-init-file 0 \
+	-O3 --memory-init-file 0 \
 	-o  WasmEncoder1d.js\
 	-s WASM=1 \
 	-s ALLOW_MEMORY_GROWTH=1 \
