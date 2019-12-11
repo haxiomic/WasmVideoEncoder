@@ -1,3 +1,9 @@
+# Build notes macOS 
+- Using emscripten version `sdk-1.38.20-64bit`
+- Changed `libmp3lame.so` to `libmp3lame.dylib` in [webassembly/Makefile](webassembly/Makefile)
+
+-----
+
 [Check out a live demo here](http://videoncoder.s3-website.eu-central-1.amazonaws.com/)
 
 # WasmVideoEncoder
