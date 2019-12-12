@@ -186,12 +186,14 @@ void rgb2yuv420p(uint8_t *destination, uint8_t *rgb, size_t width, size_t height
 
 void add_video_frame(uint8_t* frame){ 
     flip_vertically(frame);
+
     ret = av_frame_make_writable(video_frame);
 
     // ~15% faster than sws_scale
     int size = (video_ctx->width * video_ctx->height * 3) / 2;
     uint8_t* yuv_buffer = malloc(size);
     rgb2yuv420p(yuv_buffer, frame, video_ctx->width, video_ctx->height);
+
     av_image_fill_arrays (
         (AVPicture*)video_frame->data,
         video_frame->linesize, 
@@ -204,8 +206,26 @@ void add_video_frame(uint8_t* frame){
 
     video_frame->pts = frame_idx++;
     encode(video_frame, video_ctx, video_stream, pkt);
+
     free(yuv_buffer);
 }
+
+void add_video_frame_yuv420(uint8_t* yuv_buffer){
+    ret = av_frame_make_writable(video_frame);
+
+    av_image_fill_arrays (
+        (AVPicture*)video_frame->data,
+        video_frame->linesize, 
+        yuv_buffer, 
+        video_frame->format, 
+        video_frame->width, 
+        video_frame->height, 
+        1
+    );
+
+    video_frame->pts = frame_idx++;
+    encode(video_frame, video_ctx, video_stream, pkt);
+} 
 
 
 void write_header() {

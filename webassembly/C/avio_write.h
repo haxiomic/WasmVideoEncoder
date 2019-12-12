@@ -11,3 +11,4 @@ void open_audio( int, int, int, int);
 void write_header();
 uint8_t* close_stream();
 void add_video_frame(uint8_t*);
+void add_video_frame_yuv420(uint8_t*);
