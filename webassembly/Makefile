@@ -11,18 +11,21 @@ mp4: ffmpeg.js
 
 ENCODE_FILES = ./C/avio_write.c ./C/extra.c
 ENCODE_FUNCTIONS = "[ \
-		'_open_audio', '_add_audio_frame', '_add_video_frame', \
+		'_open_audio', '_add_audio_frame', '_add_video_frame', '_add_video_frame_yuv420', \
 		'_open_video', '_close_stream', '_free_buffer', '_write_header']"
 
 ENCODE_COMMON = \
-	-O3 --memory-init-file 0 \
-	-o  WasmEncoder1d.js\
+	-Oz --memory-init-file 0 \
+	-o  WasmEncoder.js\
 	-s WASM=1 \
 	-s ALLOW_MEMORY_GROWTH=1 \
 	-s EXPORTED_FUNCTIONS=$(ENCODE_FUNCTIONS) \
 	-s MODULARIZE=1 \
-	-s EXPORT_NAME="'WasmEncoder1d'" \
+	-s EXPORT_NAME="'WasmEncoder'" \
 	-s NO_FILESYSTEM=1 \
+	-g0 \
+	-fno-rtti -fno-exceptions \
+	--closure 1
 
 DECODE_BC = ffmpeg_prod_demux.bc
 DECODE_FUNCTIONS ="['_init_muxer', '_get_next_frame', '_set_frame', '_close_muxer']"
